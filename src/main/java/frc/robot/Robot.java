@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.ClimberCommand;
-import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Gimble;
 import frc.robot.commands.IntakeCommand;
@@ -48,7 +47,6 @@ public class Robot extends TimedRobot {
   public static PhotonCamera camera = new PhotonCamera("HD_USB_Camera");
   public static OI m_oi;
 
-  public ControlPanel panel = new ControlPanel();
   public ShootCommand shootCommand = new ShootCommand();
   public IntakeCommand intakeCommand = new IntakeCommand();
   public Gimble gim = new Gimble();
@@ -83,7 +81,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     updateSmartDashboard();
-    panel.start();
     shootCommand.start();
   }
 
@@ -102,7 +99,6 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
 
-    panel.close();
     shootCommand.close();
     intakeCommand.close();
     gim.close();

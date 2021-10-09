@@ -16,9 +16,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class IntakeSystem extends Subsystem {
-  TalonSRX sweep = new TalonSRX(9);
-  TalonSRX bottomIntake = new TalonSRX(12);
-  TalonSRX topIntake = new TalonSRX(13);
+  TalonSRX bottomWheelSrx = new TalonSRX(12);
+  TalonSRX intakeSrx = new TalonSRX(13);
 
   @Override
   public void initDefaultCommand() {
@@ -26,20 +25,24 @@ public class IntakeSystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void intake(double pow0, double pow1) {
-    bottomIntake.set(ControlMode.PercentOutput, pow0);
-    topIntake.set(ControlMode.PercentOutput, pow1);
+  public void intake(double power) {
+    intakeSrx.set(ControlMode.PercentOutput, power);
   }
 
-  public void activateSweeper(boolean run) {
-    if (run) {
-      sweep.set(ControlMode.PercentOutput, 0.1);
-    } else {
-      sweep.set(ControlMode.PercentOutput, 0);
-    }
+  public void bottomWheel(double power) {
+    bottomWheelSrx.set(ControlMode.PercentOutput, power);
   }
 
   public void stopIntake() {
-    intake(0, 0);
+    intake(0);
+  }
+
+  public void stopBottomWheel() {
+    bottomWheel(0);
+  }
+
+  public void stopAll() {
+    stopIntake();
+    stopBottomWheel();
   }
 }

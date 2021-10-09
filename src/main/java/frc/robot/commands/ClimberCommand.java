@@ -32,25 +32,25 @@ public class ClimberCommand extends Command {
   @Override
   protected void execute() {
 
-    if (OI.gamePad.getRawButton(6) && !gone) {
-      press = !press;
-      gone = true;
+    // if (OI.gamePad.getRawButton(6) && !gone) {
+    //   press = !press;
+    //   gone = true;
 
-    } else if (!OI.gamePad.getRawButton(6) && gone) {
-      gone = false;
-    }
+    // } else if (!OI.gamePad.getRawButton(6) && gone) {
+    //   gone = false;
+    // }
 
-    if (press) {
-      Robot.climberSystem.setCylinder(true);
-    } else {
-      Robot.climberSystem.setCylinder(false);
-    }
+    // if (press) {
+    //   Robot.climberSystem.setCylinder(true);
+    // } else {
+    //   Robot.climberSystem.setCylinder(false);
+    // }
 
-    if (OI.gamePad.getRawButton(8)) {
-      Robot.climberSystem.climb(0.3);
-    } else {
-      Robot.climberSystem.stopClimb();
-    }
+    // if (OI.gamePad.getRawButton(8)) {
+    //   Robot.climberSystem.climb(0.3);
+    // } else {
+    //   Robot.climberSystem.stopClimb();
+    // }
 
   }
 

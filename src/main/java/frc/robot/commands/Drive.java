@@ -38,13 +38,11 @@ public class Drive extends Command {
     if (OI.rightJoy.getRawButton(1)) {
       Robot.driveSystem.shiftGear(true);
       if (lastgear != true) {
-        System.out.println("high gear");
         lastgear = true;
       }
     } else {
       Robot.driveSystem.shiftGear(false);
       if (lastgear != false) {
-        System.out.println("low gear");
         lastgear = false;
       }
     }

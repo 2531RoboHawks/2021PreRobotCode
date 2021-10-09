@@ -16,7 +16,7 @@ public class ShootCommand extends Command {
 
   public ShootCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.shootSystem);
+    // requires(Robot.shootSystem);
   }
 
   // Called just before this Command runs the first time
@@ -29,16 +29,11 @@ public class ShootCommand extends Command {
 
   @Override
   protected void execute() {
-
-    boolean intakeJoy = OI.leftJoy.getRawButton(3);
-    if (intakeJoy) {
-      Robot.shootSystem.shoot(0.85);
-
-    } else {
-
-      Robot.shootSystem.stopShoot();
-    }
-
+    // if (OI.leftJoy.getRawButton(3)) {
+    //   Robot.shootSystem.shoot(0.85);
+    // } else {
+    //   Robot.shootSystem.stopShoot();
+    // }
   }
 
   // Make this return true when this Command no longer needs to run execute()

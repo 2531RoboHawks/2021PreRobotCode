@@ -16,5 +16,4 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
   public static Joystick rightJoy = new Joystick(0);
   public static Joystick leftJoy = new Joystick(1);
-  public static Joystick gamePad = new Joystick(2);
 }
