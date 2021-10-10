@@ -9,7 +9,6 @@ package frc.robot;
 
 import org.photonvision.PhotonCamera;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.ClimberCommand;
-import frc.robot.commands.Drive;
 import frc.robot.commands.Gimble;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
