@@ -7,36 +7,27 @@
 
 package frc.robot.commands;
 
-import javax.lang.model.type.ErrorType;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveSystem;
 
 public class VisionCommand extends Command {
-final double kP = 0.5;
-final double kI = 0.5;
-final double kD = 0.01;
+boolean finished = false;
+  private final DriveSystem driveSystem;
+  private final PIDController pidController;
 
-final double iLimit = 1; 
-
-private double setPoint = 0;
-private double errorSum = 0;
-private double lastTimeStamp = 0;
-private double lastError = 0;
-
-  public VisionCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+  public VisionCommand(DriveSystem driveSystem) {
+    this.pidController = new PIDController(0.5, 0.5, 0.01);
+    this.driveSystem = driveSystem;
+    requires(driveSystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    errorSum = 0;
-    lastError = 0;
-    lastTimeStamp = Timer.getFPGATimestamp();
+    pidController.reset();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,43 +44,32 @@ private double lastError = 0;
       SmartDashboard.putNumber("Pitch", pitch);
       SmartDashboard.putNumber("Area", area);
 
-      //Maths
-      double error = setPoint - yaw;
-      double dt = Timer.getFPGATimestamp() - lastTimeStamp;
+      //PID
+      pidController.setSetpoint(0);
+      double output = pidController.calculate(yaw);
+      driveSystem.arcadeDrive(0, output);
 
-      if(Math.abs(error) < iLimit) {
-        errorSum += error * dt;
-      }
-
-      double errorRate = (error - lastError) / dt;
-      
-      double outputSpeed = kP * error + kI * errorSum + kD * errorRate;
-
-      //Output to motor
-      Robot.driveSystem.arcadeDrive(0, outputSpeed);
-
-      //Update Last Variables
-      lastTimeStamp = Timer.getFPGATimestamp();
-      lastError = error;
-      } else {
-        Robot.driveSystem.stop();
-      }
+    } else {
+      driveSystem.stop();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return pidController.atSetpoint();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    driveSystem.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    driveSystem.stop();
   }
 }
