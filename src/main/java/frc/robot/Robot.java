@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import org.photonvision.PhotonCamera;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,9 +16,10 @@ import frc.robot.commands.AutoScore;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.CrossInitLine;
-import frc.robot.commands.VisionCommand;
+import frc.robot.commands.VisionCommandGroup;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShootIntakeSystem;
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,12 +33,11 @@ public class Robot extends TimedRobot {
   public static DriveSystem driveSystem = new DriveSystem();
   public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
   public static IntakeSystem intakeSystem = new IntakeSystem();
-  public static PhotonCamera camera = new PhotonCamera("HD_USB_Camera");
+  public static Limelight limelight = new Limelight();
   public static OI m_oi;
 
   public ShootCommand shootCommand = new ShootCommand();
   public IntakeCommand intakeCommand = new IntakeCommand();
-  public VisionCommand vc = new VisionCommand(driveSystem);
 
   Command m_autonomousCommand;
   SendableChooser<Command> auto = new SendableChooser<Command>();
@@ -52,7 +50,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     initSmartDashboard();
-
+    
     // RobotMap.gyro.calibrate();
     // startTime = System.currentTimeMillis();
   }
@@ -117,7 +115,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    vc.start();
   }
 
   // private double startTime;
@@ -155,12 +152,12 @@ public class Robot extends TimedRobot {
     auto.setDefaultOption("Cross Init Line - 5 points", new CrossInitLine());
     auto.addOption("Not auto", null);
     auto.addOption("Auto score NEW", new AutoScore());
+    auto.addOption("Vision Code Test", new VisionCommandGroup(driveSystem));
     SmartDashboard.putData("Auto", auto);
   }
   
 
   public void updateSmartDashboard() {
-
   }
 
 }

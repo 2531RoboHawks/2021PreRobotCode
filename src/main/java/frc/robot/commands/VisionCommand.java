@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.Limelight;
 
 public class VisionCommand extends Command {
 boolean finished = false;
@@ -33,25 +34,16 @@ boolean finished = false;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean targets = Robot.camera.getLatestResult().hasTargets();
-
-    if(targets) {
-      //Get positions of the camera
-      double yaw = Robot.camera.getLatestResult().getBestTarget().getYaw();
-      double pitch = Robot.camera.getLatestResult().getBestTarget().getPitch();
-      double area = Robot.camera.getLatestResult().getBestTarget().getArea();
-      SmartDashboard.putNumber("Yaw", yaw);
-      SmartDashboard.putNumber("Pitch", pitch);
-      SmartDashboard.putNumber("Area", area);
-
-      //PID
-      pidController.setSetpoint(0);
-      double output = pidController.calculate(yaw);
-      driveSystem.arcadeDrive(0, output);
-
-    } else {
-      driveSystem.stop();
-    }
+    double tx = Robot.limelight.getX();
+    
+    
+    // SmartDashboard.putNumber("Yaw", tx);
+    // SmartDashboard.putNumber("Pitch", 0);
+    // SmartDashboard.putNumber("Area", 0);
+      
+    pidController.setSetpoint(0);
+    double output = pidController.calculate(tx);
+    driveSystem.arcadeDrive(0, output);
   }
 
   // Make this return true when this Command no longer needs to run execute()
