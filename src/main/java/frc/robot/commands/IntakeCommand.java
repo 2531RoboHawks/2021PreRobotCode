@@ -38,10 +38,10 @@ public class IntakeCommand extends Command {
       Robot.shootSystem.stopShoot();
     }
 
-    if (OI.leftJoy.getRawButton(2)) {
+    if (OI.leftJoy.getTrigger()) {
       // Shoot
       Robot.intakeSystem.bottomWheel(-0.5);
-    } else if (OI.leftJoy.getTrigger()) {
+    } else if (OI.leftJoy.getRawButton(2)) {
       // Intake
       Robot.intakeSystem.bottomWheel(0.3);
       Robot.intakeSystem.intake(0.2);
