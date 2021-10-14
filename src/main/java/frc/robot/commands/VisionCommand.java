@@ -29,6 +29,7 @@ boolean finished = false;
   @Override
   protected void initialize() {
     pidController.reset();
+    pidController.setSetpoint(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -41,9 +42,8 @@ boolean finished = false;
     // SmartDashboard.putNumber("Pitch", 0);
     // SmartDashboard.putNumber("Area", 0);
       
-    pidController.setSetpoint(0);
     double output = pidController.calculate(tx);
-    driveSystem.arcadeDrive(0, output);
+    driveSystem.arcadeDrive(0, output / 10.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -13,6 +13,7 @@ public class ToggleButton {
     }
 
     public boolean isToggled() {
+        // TODO: need to use getRawButtonPressed
         boolean newValue = this.joystick.getRawButton(this.button);
         if (oldValue != newValue) {
             oldValue = newValue;
