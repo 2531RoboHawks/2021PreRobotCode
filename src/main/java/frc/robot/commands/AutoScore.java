@@ -18,19 +18,20 @@ public class AutoScore extends CommandGroup {
     // addSequential(new InstantCommand(() -> {
     //   Robot.shootSystem.shoot(0.9);
     // }));
-    addSequential(new InstantCommand(() -> {
-      Robot.driveSystem.tankDrive(2.8, 0.5);
-    }));
-    addSequential(new WaitCommand(5));
+    addSequential(new TimeDrive(2.5, 0.5, 0.5));
     addSequential(new InstantCommand(() -> {
       Robot.driveSystem.stop();
+      Robot.intakeSystem.bottomWheel(0.5);
     }));
     addParallel(new TimeShoot(0.9));
-    addSequential(new WaitCommand(7));
+    addSequential(new WaitCommand(5));
     for (int i = 0; i < 3; i++) {
+      addSequential(new InstantCommand(() -> {
+        Robot.intakeSystem.stopAll();
+      }));
       addSequential(new WaitCommand(2));
       addSequential(new InstantCommand(() -> {
-        Robot.intakeSystem.bottomWheel(-0.5);
+        Robot.intakeSystem.bottomWheel(-0.75);
       }));
       addSequential(new WaitCommand(0.25));
       addSequential(new InstantCommand(() -> {

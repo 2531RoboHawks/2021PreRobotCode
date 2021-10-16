@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     updateSmartDashboard();
-    shootCommand.start();
+    // shootCommand.start();
   }
 
   /**
@@ -152,7 +152,7 @@ public class Robot extends TimedRobot {
     auto.setDefaultOption("Cross Init Line - 5 points", new CrossInitLine());
     auto.addOption("Not auto", null);
     auto.addOption("Auto score NEW", new AutoScore());
-    auto.addOption("Vision Code Test", new VisionCommandGroup(driveSystem));
+    // auto.addOption("Vision Code Test", new VisionCommandGroup(driveSystem));
     SmartDashboard.putData("Auto", auto);
   }
   

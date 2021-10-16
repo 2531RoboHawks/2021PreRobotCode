@@ -22,7 +22,7 @@ boolean finished = false;
   public VisionCommand(DriveSystem driveSystem) {
     this.pidController = new PIDController(0.5, 0.5, 0.01);
     this.driveSystem = driveSystem;
-    requires(driveSystem);
+    // requires(driveSystem);
   }
 
   // Called just before this Command runs the first time

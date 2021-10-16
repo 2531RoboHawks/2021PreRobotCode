@@ -18,7 +18,7 @@ public class TimeDrive extends Command {
   private boolean end = false;
 
   public TimeDrive(double tTime, double p1, double p2) {
-    requires(Robot.driveSystem);
+    // requires(Robot.driveSystem);
     this.time = tTime * 1000;
     this.power1 = p1;
     this.power2 = p2;
