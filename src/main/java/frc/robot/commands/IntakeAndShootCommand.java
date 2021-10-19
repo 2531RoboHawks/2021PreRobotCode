@@ -12,11 +12,11 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.ToggleButton;
 
-public class IntakeCommand extends Command {
-  ToggleButton shootButton = new ToggleButton(OI.leftJoy, 3);
-  ToggleButton manualButton = new ToggleButton(OI.leftJoy, 8);
+public class IntakeAndShootCommand extends Command {
+  private ToggleButton shootButton = new ToggleButton(OI.leftJoy, 3);
+  private ToggleButton manualButton = new ToggleButton(OI.leftJoy, 8);
 
-  public IntakeCommand() {
+  public IntakeAndShootCommand() {
     requires(Robot.intakeSystem);
     requires(Robot.shootSystem);
   }
@@ -45,9 +45,11 @@ public class IntakeCommand extends Command {
       Robot.intakeSystem.bottomWheel(0.3);
       Robot.intakeSystem.intake(0.2);
     } else if (manual) {
+      // Manual control
       Robot.intakeSystem.bottomWheel(OI.leftJoy.getZ() / 2);
       Robot.intakeSystem.intake(OI.leftJoy.getZ() / 2);
     } else if (revving) {
+      // When revving, default to shooting out
       Robot.intakeSystem.bottomWheel(0.5);
     } else {
       Robot.intakeSystem.stopAll();

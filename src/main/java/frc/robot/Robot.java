@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeAndShootCommand;
 import frc.robot.commands.CrossInitLine;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   public static Limelight limelight = new Limelight();
   public static OI m_oi;
 
-  public IntakeCommand intakeCommand = new IntakeCommand();
+  public IntakeAndShootCommand intakeCommand = new IntakeAndShootCommand();
 
   Command m_autonomousCommand;
   SendableChooser<Command> auto = new SendableChooser<Command>();
