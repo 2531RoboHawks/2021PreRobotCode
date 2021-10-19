@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   public IntakeAndShootCommand intakeCommand = new IntakeAndShootCommand();
 
   Command m_autonomousCommand;
-  SendableChooser<Command> auto = new SendableChooser<Command>();
+  SendableChooser<Command> auto = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -106,8 +106,6 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
-  // private double startTime;
-
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -117,7 +115,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   /**
@@ -144,7 +141,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto", auto);
   }
   
-
   public void updateSmartDashboard() {
   }
 }
