@@ -8,13 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.ToggleButton;
 
 public class IntakeAndShootCommand extends Command {
-  private ToggleButton shootButton = new ToggleButton(OI.leftJoy, 3);
+  private ToggleButton revButton = new ToggleButton(OI.leftJoy, 3);
   private ToggleButton manualButton = new ToggleButton(OI.leftJoy, 8);
+  private long revWillBeReadyAt = -1;
+
+  private String SHOOT_STATUS = "Shoot Status ";
+  private String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
     requires(Robot.intakeSystem);
@@ -27,32 +32,59 @@ public class IntakeAndShootCommand extends Command {
 
   @Override
   protected void execute() {
-    // Rev up Flywheel
-    boolean revving = shootButton.isToggled();
-    if (revving) {
+    long now = System.currentTimeMillis();
+
+    boolean isRevving = revButton.isToggled();
+    boolean isManualControl = manualButton.isToggled();
+    boolean isRevReady = isRevving && now > revWillBeReadyAt;
+
+    if (isRevving) {
+      if (revWillBeReadyAt == -1) {
+        revWillBeReadyAt = now + 10000;
+      }
       Robot.shootSystem.shoot(0.85);
       Robot.intakeSystem.bottomWheel(-0.5);
     } else {
+      revWillBeReadyAt = -1;
       Robot.shootSystem.stopShoot();
     }
 
-    boolean manual = manualButton.isToggled();
     if (OI.leftJoy.getTrigger()) {
       // Shoot
       Robot.intakeSystem.bottomWheel(-0.5);
+      if (isRevReady) {
+        revWillBeReadyAt = now + 2000;
+      }
+      SmartDashboard.putString(INTAKE_STATUS, "Shooting");
     } else if (OI.leftJoy.getRawButton(2)) {
       // Intake
       Robot.intakeSystem.bottomWheel(0.3);
       Robot.intakeSystem.intake(0.2);
-    } else if (manual) {
+      SmartDashboard.putString(INTAKE_STATUS, "Intaking");
+    } else if (isManualControl) {
       // Manual control
-      Robot.intakeSystem.bottomWheel(OI.leftJoy.getZ() / 2);
-      Robot.intakeSystem.intake(OI.leftJoy.getZ() / 2);
-    } else if (revving) {
-      // When revving, default to shooting out
+      double power = OI.leftJoy.getZ() / 2;
+      Robot.intakeSystem.bottomWheel(power);
+      Robot.intakeSystem.intake(power);
+      SmartDashboard.putString(INTAKE_STATUS, String.format("Power: %d", (int) (power * 100)));
+    } else if (isRevving) {
+      // When revving, default to keeping balls in
       Robot.intakeSystem.bottomWheel(0.5);
+      SmartDashboard.putString(INTAKE_STATUS, "Keeping balls in");
     } else {
       Robot.intakeSystem.stopAll();
+      SmartDashboard.putString(INTAKE_STATUS, "Off");
+    }
+
+    if (isRevving) {
+      if (isRevReady) {
+        SmartDashboard.putString(SHOOT_STATUS, "READY TO SHOOT");
+      } else {
+        long seconds = (revWillBeReadyAt - now) / 1000;
+        SmartDashboard.putString(SHOOT_STATUS, String.format("Ready in %s...", seconds + 1));
+      }
+    } else {
+      SmartDashboard.putString(SHOOT_STATUS, "Not revving");
     }
   }
 

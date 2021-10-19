@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public static ShootSystem shootSystem = new ShootSystem();
   public static IntakeSystem intakeSystem = new IntakeSystem();
   public static Limelight limelight = new Limelight();
-  public static OI m_oi;
+  public static OI oi = new OI();
 
   public IntakeAndShootCommand intakeCommand = new IntakeAndShootCommand();
 
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    oi = new OI();
     initSmartDashboard();
   }
 

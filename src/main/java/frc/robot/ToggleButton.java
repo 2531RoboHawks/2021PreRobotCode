@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Joystick;
 public class ToggleButton {
     Joystick joystick;
     int button;
-    boolean oldValue = false;
     boolean toggled = false;
     public ToggleButton(Joystick joystick, int button) {
         this.joystick = joystick;
@@ -13,13 +12,9 @@ public class ToggleButton {
     }
 
     public boolean isToggled() {
-        // TODO: need to use getRawButtonPressed
-        boolean newValue = this.joystick.getRawButton(this.button);
-        if (oldValue != newValue) {
-            oldValue = newValue;
-            if (newValue) {
-                toggled = !toggled;
-            }
+        boolean wasToggled = this.joystick.getRawButtonPressed(this.button);
+        if (wasToggled) {
+            toggled = !toggled;
         }
         return toggled;
     }
