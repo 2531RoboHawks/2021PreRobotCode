@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CrossInitLine extends CommandGroup {
   public CrossInitLine() {
-    //Move forward so we can get 5 points for leaving the line in auto
     addSequential(new TimeDrive(2, -0.5, -0.5));
   }
-
 }

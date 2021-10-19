@@ -19,7 +19,6 @@ public class Drive extends Command {
 
   // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
   public Drive() {
-    // Use requires() here to declare subsystem dependencies
     requires(Robot.driveSystem);
     Robot.driveSystem.shiftGear(false);
     lastgear = Robot.driveSystem.isHighGear();
@@ -34,7 +33,6 @@ public class Drive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
     if (OI.rightJoy.getRawButton(1)) {
       Robot.driveSystem.shiftGear(true);
       if (lastgear != true) {
@@ -51,24 +49,18 @@ public class Drive extends Command {
     double leftY = OI.rightJoy.getRawAxis(1);
 
     Robot.driveSystem.tankDrive(leftX, leftY);
-
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.driveSystem.stop();
-    // turn.close();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     end();

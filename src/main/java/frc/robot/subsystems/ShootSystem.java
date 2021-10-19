@@ -12,22 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
-public class ShootIntakeSystem extends Subsystem {
+public class ShootSystem extends Subsystem {
   TalonSRX sweep = new TalonSRX(9);
   TalonSRX shooter = new TalonSRX(10);
   TalonSRX bottomIntake = new TalonSRX(12);
   TalonSRX topIntake = new TalonSRX(13);
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 
   public void shoot(double pow) {
@@ -37,5 +29,4 @@ public class ShootIntakeSystem extends Subsystem {
   public void stopShoot() {
     shoot(0);
   }
-
 }

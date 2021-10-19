@@ -14,13 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.CrossInitLine;
-import frc.robot.commands.VisionCommandGroup;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.ShootIntakeSystem;
+import frc.robot.subsystems.ShootSystem;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -31,12 +29,11 @@ import frc.robot.subsystems.ShootIntakeSystem;
 public class Robot extends TimedRobot {
   // Init Subsystems for use in other classes
   public static DriveSystem driveSystem = new DriveSystem();
-  public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
+  public static ShootSystem shootSystem = new ShootSystem();
   public static IntakeSystem intakeSystem = new IntakeSystem();
   public static Limelight limelight = new Limelight();
   public static OI m_oi;
 
-  public ShootCommand shootCommand = new ShootCommand();
   public IntakeCommand intakeCommand = new IntakeCommand();
 
   Command m_autonomousCommand;
@@ -50,9 +47,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     initSmartDashboard();
-    
-    // RobotMap.gyro.calibrate();
-    // startTime = System.currentTimeMillis();
   }
 
   /**
@@ -67,7 +61,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     updateSmartDashboard();
-    // shootCommand.start();
   }
 
   /**
@@ -77,15 +70,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    // RobotMap.gyro.calibrate();
-    // startTime = System.currentTimeMillis();
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-
-    shootCommand.close();
     intakeCommand.close();
   }
 
@@ -138,7 +127,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     intakeCommand.start();
-
   }
 
   /**
@@ -149,9 +137,9 @@ public class Robot extends TimedRobot {
   }
 
   public void initSmartDashboard() {
-    auto.setDefaultOption("Cross Init Line - 5 points", new CrossInitLine());
-    auto.addOption("Not auto", null);
-    auto.addOption("Auto score NEW", new AutoScore());
+    auto.addOption("No auto", null);
+    auto.setDefaultOption("Cross Init Line", new CrossInitLine());
+    auto.addOption("Auto score", new AutoScore());
     // auto.addOption("Vision Code Test", new VisionCommandGroup(driveSystem));
     SmartDashboard.putData("Auto", auto);
   }
@@ -159,5 +147,4 @@ public class Robot extends TimedRobot {
 
   public void updateSmartDashboard() {
   }
-
 }
