@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.IntakeAndShootCommand;
+import frc.robot.commands.VisionCommandGroup;
 import frc.robot.commands.CrossInitLine;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -138,10 +139,11 @@ public class Robot extends TimedRobot {
     auto.addOption("No auto", null);
     auto.setDefaultOption("Cross Init Line", new CrossInitLine());
     auto.addOption("Auto score", new AutoScore());
-    // auto.addOption("Vision Code Test", new VisionCommandGroup(driveSystem));
+    auto.addOption("Vision Test", new VisionCommandGroup(driveSystem));
     SmartDashboard.putData("Auto", auto);
   }
   
   public void updateSmartDashboard() {
+    SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
   }
 }

@@ -44,8 +44,8 @@ public class Limelight {
 
   }
 
-  public double hasValidTargets() {
-    return tv.getDouble(0);
+  public boolean hasValidTargets() {
+    return tv.getDouble(0) == 1;
   }
 
   public double getX() {
