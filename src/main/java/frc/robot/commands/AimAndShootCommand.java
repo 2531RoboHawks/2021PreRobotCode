@@ -9,7 +9,7 @@ public class AimAndShootCommand extends SequentialCommandGroup {
   public AimAndShootCommand() {
     addCommands(new InstantCommand(() -> {
       Robot.driveSystem.stop();
-      Robot.shootSystem.stopShoot();
+      Robot.shootSystem.stop();
       Robot.intakeSystem.stopAll();
     }));
     addCommands(new VisionCommand(Robot.driveSystem));
@@ -22,7 +22,7 @@ public class AimAndShootCommand extends SequentialCommandGroup {
     addCommands(new ShootAllBalls());
     addCommands(new InstantCommand(() -> {
       Robot.driveSystem.stop();
-      Robot.shootSystem.stopShoot();
+      Robot.shootSystem.stop();
       Robot.intakeSystem.stopAll();
     }));
   }

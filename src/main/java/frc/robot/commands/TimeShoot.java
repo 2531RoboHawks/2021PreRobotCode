@@ -34,7 +34,7 @@ public class TimeShoot extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.shootSystem.stopShoot();
+    Robot.shootSystem.stop();
     finished = true;
   }
 }

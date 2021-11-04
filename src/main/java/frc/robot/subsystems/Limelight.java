@@ -41,10 +41,6 @@ public class Limelight extends SubsystemBase {
   //camtran Results of a 3D position solution, 6 numbers: Translation (x,y,y) Rotation(pitch,yaw,roll)
   private NetworkTableEntry camtran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran"); 
 
-  public Limelight() {
-
-  }
-
   public boolean hasValidTargets() {
     return tv.getDouble(0) == 1;
   }

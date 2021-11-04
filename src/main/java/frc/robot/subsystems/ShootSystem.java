@@ -22,7 +22,7 @@ public class ShootSystem extends SubsystemBase {
     shooter.set(ControlMode.PercentOutput, pow);
   }
 
-  public void stopShoot() {
+  public void stop() {
     shoot(0);
   }
 }

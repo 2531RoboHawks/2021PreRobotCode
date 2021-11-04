@@ -60,7 +60,7 @@ public class IntakeAndShootCommand extends CommandBase {
         Robot.intakeSystem.intake(0);
       } else {
         revWillBeReadyAt = -1;
-        Robot.shootSystem.stopShoot();
+        Robot.shootSystem.stop();
       }
   
       if (OI.leftJoy.getTrigger()) {
@@ -110,7 +110,7 @@ public class IntakeAndShootCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.shootSystem.stopShoot();
+    Robot.shootSystem.stop();
     Robot.intakeSystem.stopAll();
   }
 }

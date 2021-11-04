@@ -28,7 +28,7 @@ public class AutoScore extends SequentialCommandGroup {
     addCommands(new WaitCommand(5));
     addCommands(new ShootAllBalls());
     addCommands(new InstantCommand(() -> {
-      Robot.shootSystem.stopShoot();
+      Robot.shootSystem.stop();
       Robot.intakeSystem.stopAll();
     }));
   }

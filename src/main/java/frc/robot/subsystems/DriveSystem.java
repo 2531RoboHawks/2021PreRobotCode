@@ -15,14 +15,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.Drive;
 
 public class DriveSystem extends SubsystemBase {
-
-  // motors
   private TalonSRX leftMotor1 = new TalonSRX(5);
   private TalonSRX leftMotor2 = new TalonSRX(6);
   private TalonSRX rightMotor1 = new TalonSRX(7);
   private TalonSRX rightMotor2 = new TalonSRX(8);
 
-  // pneumatics
   private Solenoid shifterHigh = new Solenoid(0);
   private Solenoid shifterLow = new Solenoid(1);
 
@@ -39,8 +36,8 @@ public class DriveSystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double power, double steering) {
-    double leftPower = (power + steering);
-    double rightPower = (power - steering);
+    double leftPower = power + steering;
+    double rightPower = power - steering;
     tankDrive(leftPower, rightPower);
   }
 
