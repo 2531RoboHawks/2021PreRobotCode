@@ -13,10 +13,10 @@ public class Limelight {
   //Vertical Offset From Crosshair To Target (LL2: -24.85 to 24.85 degrees)
   private NetworkTableEntry ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty"); 
 
-  //ta Target Area (0% of image to 100% of image) ts Skew or rotation (-90 degrees to 0 degrees)
+  //ta Target Area (0% of image to 100% of image)
   private NetworkTableEntry ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta");
 
-  //No idea What this is for
+  //ts Skew or rotation (-90 degrees to 0 degrees)
   private NetworkTableEntry ts = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts");
 
   //tl The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency. 

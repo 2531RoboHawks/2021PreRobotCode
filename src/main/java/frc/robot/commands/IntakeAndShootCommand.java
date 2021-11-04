@@ -55,8 +55,9 @@ public class IntakeAndShootCommand extends Command {
         if (revWillBeReadyAt == -1) {
           revWillBeReadyAt = now + 10000;
         }
-        Robot.shootSystem.shoot(0.85);
+        Robot.shootSystem.shoot(0.2);
         Robot.intakeSystem.bottomWheel(-0.5);
+        Robot.intakeSystem.intake(0);
       } else {
         revWillBeReadyAt = -1;
         Robot.shootSystem.stopShoot();
