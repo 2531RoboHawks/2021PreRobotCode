@@ -2,8 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight {
+public class Limelight extends SubsystemBase {
   //Whether the limelight has any valid targets (0 or 1)
   private NetworkTableEntry tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv");
 
