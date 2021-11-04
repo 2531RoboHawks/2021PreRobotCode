@@ -27,6 +27,7 @@ public class DriveSystem extends SubsystemBase {
   private Solenoid shifterLow = new Solenoid(1);
 
   public DriveSystem() {
+    super();
     setDefaultCommand(new Drive(this));
   }
 
