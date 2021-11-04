@@ -9,15 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
-import frc.robot.Robot;
+import frc.robot.subsystems.DriveSystem;
 
 /**
  * An example command. You can replace me with your own command.
  */
 public class Drive extends CommandBase {
-  public Drive() {
-    addRequirements(Robot.driveSystem);
-    Robot.driveSystem.shiftGear(false);
+  private DriveSystem driveSystem;
+
+  public Drive(DriveSystem driveSystem) {
+    addRequirements(driveSystem);
+    this.driveSystem = driveSystem;
+    driveSystem.shiftGear(false);
   }
 
   @Override
@@ -28,15 +31,15 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     if (OI.rightJoy.getRawButton(1)) {
-      Robot.driveSystem.shiftGear(true);
+      driveSystem.shiftGear(true);
     } else {
-      Robot.driveSystem.shiftGear(false);
+      driveSystem.shiftGear(false);
     }
 
     double leftX = OI.leftJoy.getRawAxis(1);
     double leftY = OI.rightJoy.getRawAxis(1);
 
-    Robot.driveSystem.tankDrive(leftX, leftY);
+    driveSystem.tankDrive(leftX, leftY);
   }
 
   @Override
@@ -46,6 +49,6 @@ public class Drive extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.driveSystem.stop();
+    driveSystem.stop();
   }
 }

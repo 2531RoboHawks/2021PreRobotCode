@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,11 +30,11 @@ import frc.robot.subsystems.ShootSystem;
  */
 public class Robot extends TimedRobot {
   // Init Subsystems for use in other classes
-  public static DriveSystem driveSystem = new DriveSystem();
-  public static ShootSystem shootSystem = new ShootSystem();
-  public static IntakeSystem intakeSystem = new IntakeSystem();
-  public static Limelight limelight = new Limelight();
-  public static OI oi = new OI();
+  public static final DriveSystem driveSystem = new DriveSystem();
+  public static final ShootSystem shootSystem = new ShootSystem();
+  public static final IntakeSystem intakeSystem = new IntakeSystem();
+  public static final Limelight limelight = new Limelight();
+  public static final OI oi = new OI();
 
   public IntakeAndShootCommand intakeCommand = new IntakeAndShootCommand();
 
@@ -46,8 +47,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    oi = new OI();
-    initSmartDashboard();
+    auto.addOption("No auto", null);
+    auto.setDefaultOption("Cross Init Line", new CrossInitLine());
+    auto.addOption("Auto score", new AutoScore());
+    auto.addOption("Vision Test", new VisionCommand(driveSystem));
+    SmartDashboard.putData("Auto", auto);
   }
 
   /**
@@ -61,7 +65,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    updateSmartDashboard();
+    SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
   }
 
   /**
@@ -132,17 +136,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-  }
-
-  public void initSmartDashboard() {
-    auto.addOption("No auto", null);
-    auto.setDefaultOption("Cross Init Line", new CrossInitLine());
-    auto.addOption("Auto score", new AutoScore());
-    auto.addOption("Vision Test", new VisionCommand(driveSystem));
-    SmartDashboard.putData("Auto", auto);
-  }
-  
-  public void updateSmartDashboard() {
-    SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
   }
 }

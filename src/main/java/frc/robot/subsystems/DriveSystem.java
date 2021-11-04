@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.Drive;
 
 public class DriveSystem extends SubsystemBase {
 
@@ -25,10 +26,9 @@ public class DriveSystem extends SubsystemBase {
   private Solenoid shifterHigh = new Solenoid(0);
   private Solenoid shifterLow = new Solenoid(1);
 
-  // @Override
-  // public void initDefaultCommand() {
-  //   setDefaultCommand(new Drive());
-  // }
+  public DriveSystem() {
+    setDefaultCommand(new Drive(this));
+  }
 
   public void tankDrive(double leftPower, double rightPower) {
     leftMotor1.set(ControlMode.PercentOutput, leftPower);
