@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.OI;
 import frc.robot.subsystems.ClimbSystem;
 
 public class ClimbCommand extends CommandBase {
@@ -18,9 +18,9 @@ public class ClimbCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (Robot.oi.leftJoy.getRawButton(6)) {
+    if (OI.leftJoy.getRawButton(6)) {
       climbSystem.moveUp();
-    } else if (Robot.oi.leftJoy.getRawButton(7)) {
+    } else if (OI.leftJoy.getRawButton(7)) {
       climbSystem.moveDown();
     } else {
       climbSystem.stop();

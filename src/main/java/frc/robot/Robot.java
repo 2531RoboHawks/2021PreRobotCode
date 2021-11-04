@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
   public static final IntakeSystem intakeSystem = new IntakeSystem();
   public static final Limelight limelight = new Limelight();
   public static final ClimbSystem climbSystem = new ClimbSystem();
-  public static final OI oi = new OI();
 
   private TeleopGroup teleopCommand = new TeleopGroup();
   private Command autonomousCommand;
