@@ -8,13 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.IntakeAndShootCommand;
-import frc.robot.commands.VisionCommandGroup;
+import frc.robot.commands.VisionCommand;
 import frc.robot.commands.CrossInitLine;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -76,7 +76,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-    intakeCommand.close();
   }
 
   /**
@@ -95,7 +94,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = auto.getSelected();
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+      m_autonomousCommand.schedule();
     }
   }
 
@@ -125,7 +124,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    intakeCommand.start();
+    intakeCommand.schedule();
   }
 
   /**
@@ -139,7 +138,7 @@ public class Robot extends TimedRobot {
     auto.addOption("No auto", null);
     auto.setDefaultOption("Cross Init Line", new CrossInitLine());
     auto.addOption("Auto score", new AutoScore());
-    auto.addOption("Vision Test", new VisionCommandGroup(driveSystem));
+    auto.addOption("Vision Test", new VisionCommand(driveSystem));
     SmartDashboard.putData("Auto", auto);
   }
   

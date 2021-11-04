@@ -7,10 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class TimeDrive extends Command {
+public class TimeDrive extends CommandBase {
   private double time;
   private double startTime = System.currentTimeMillis();
   private double power1;
@@ -24,15 +24,13 @@ public class TimeDrive extends Command {
     this.power2 = p2;
   }
 
-  // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
     startTime = System.currentTimeMillis();
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     double currentTime = System.currentTimeMillis();
 
     if (currentTime - startTime < time) {
@@ -44,22 +42,13 @@ public class TimeDrive extends Command {
 
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return end;
   }
 
-  // Called once after isFinished returns true
   @Override
-  public void end() {
+  public void end(boolean interrupted) {
     Robot.driveSystem.stop();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
   }
 }

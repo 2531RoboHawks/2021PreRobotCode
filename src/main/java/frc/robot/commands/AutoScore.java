@@ -7,26 +7,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 
-public class AutoScore extends CommandGroup {
+public class AutoScore extends SequentialCommandGroup {
   public AutoScore() {
     // addSequential(new TimeDrive(2.8, 0.5, 0.5));
     // addSequential(new InstantCommand(() -> {
     //   Robot.shootSystem.shoot(0.9);
     // }));
-    addSequential(new TimeDrive(2.5, 0.5, 0.5));
-    addSequential(new InstantCommand(() -> {
+    addCommands(new TimeDrive(2.5, 0.5, 0.5));
+    addCommands(new InstantCommand(() -> {
       Robot.driveSystem.stop();
       Robot.intakeSystem.bottomWheel(0.5);
+      Robot.shootSystem.shoot(0.9);
     }));
-    addParallel(new TimeShoot(0.9));
-    addSequential(new WaitCommand(5));
-    addSequential(new ShootAllBalls());
-    addSequential(new InstantCommand(() -> {
+    // addParallel(new TimeShoot(0.9));
+    addCommands(new WaitCommand(5));
+    addCommands(new ShootAllBalls());
+    addCommands(new InstantCommand(() -> {
       Robot.shootSystem.stopShoot();
       Robot.intakeSystem.stopAll();
     }));

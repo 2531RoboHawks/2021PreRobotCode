@@ -7,13 +7,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSystem;
 
-public class VisionCommand extends Command {
+public class VisionCommand extends CommandBase {
   private final DriveSystem driveSystem;
   private final PIDController rotatePidController;
   private final PIDController drivePidController;
@@ -22,21 +22,18 @@ public class VisionCommand extends Command {
     this.rotatePidController = new PIDController(0.5, 1, 0.01);
     this.drivePidController = new PIDController(0.5, 1, 0.01);
     this.driveSystem = driveSystem;
-    // requires(driveSystem);
   }
 
-  // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
     drivePidController.reset();
     rotatePidController.reset();
     drivePidController.setSetpoint(1);
     rotatePidController.setSetpoint(0);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     double area = Robot.limelight.getArea();
     double tx = Robot.limelight.getX();
 
@@ -57,22 +54,13 @@ public class VisionCommand extends Command {
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return rotatePidController.atSetpoint();
   }
 
-  // Called once after isFinished returns true
   @Override
-  protected void end() {
-    driveSystem.stop();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+  public void end(boolean interrupted) {
     driveSystem.stop();
   }
 }

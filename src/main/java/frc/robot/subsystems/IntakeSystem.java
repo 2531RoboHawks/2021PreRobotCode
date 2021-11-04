@@ -10,20 +10,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * Add your docs here.
  */
-public class IntakeSystem extends Subsystem {
+public class IntakeSystem extends SubsystemBase {
   TalonSRX bottomWheelSrx = new TalonSRX(12);
   TalonSRX intakeSrx = new TalonSRX(13);
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
 
   public void intake(double power) {
     intakeSrx.set(ControlMode.PercentOutput, power);

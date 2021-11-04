@@ -7,34 +7,34 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.ToggleButton;
 
-public class IntakeAndShootCommand extends Command {
+public class IntakeAndShootCommand extends CommandBase {
   private ToggleButton revButton = new ToggleButton(OI.leftJoy, 3);
   private ToggleButton manualButton = new ToggleButton(OI.leftJoy, 8);
   private ToggleButton autoButton = new ToggleButton(OI.leftJoy, 9);
   private long revWillBeReadyAt = -1;
 
-  private Command autoCommand = new AimAndShootCommand();
+  private AimAndShootCommand autoCommand = new AimAndShootCommand();
 
   private String SHOOT_STATUS = "Shoot Status ";
   private String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
-    requires(Robot.intakeSystem);
-    requires(Robot.shootSystem);
+    addRequirements(Robot.intakeSystem);
+    addRequirements(Robot.shootSystem);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     long now = System.currentTimeMillis();
 
     boolean isRevving = revButton.isToggled();
@@ -43,8 +43,8 @@ public class IntakeAndShootCommand extends Command {
     boolean isRevReady = isRevving && now > revWillBeReadyAt;
 
     if (isAuto) {
-      if (!autoCommand.isRunning()) {
-        autoCommand.start();
+      if (!autoCommand.isScheduled()) {
+        autoCommand.schedule();
       }
       SmartDashboard.putString(INTAKE_STATUS, "AUTO");
       SmartDashboard.putString(SHOOT_STATUS, "AUTO");
@@ -104,18 +104,13 @@ public class IntakeAndShootCommand extends Command {
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.shootSystem.stopShoot();
     Robot.intakeSystem.stopAll();
-  }
-
-  @Override
-  protected void interrupted() {
-    end();
   }
 }

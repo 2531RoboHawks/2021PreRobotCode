@@ -7,10 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class CrossInitLine extends CommandGroup {
+public class CrossInitLine extends SequentialCommandGroup {
   public CrossInitLine() {
-    addSequential(new TimeDrive(2, -0.5, -0.5));
+    addCommands(new TimeDrive(2, -0.5, -0.5));
   }
 }
