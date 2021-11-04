@@ -9,12 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
-import frc.robot.commands.IntakeAndShootCommand;
+import frc.robot.commands.TeleopGroup;
 import frc.robot.commands.VisionCommand;
 import frc.robot.commands.CrossInitLine;
 import frc.robot.subsystems.DriveSystem;
@@ -36,10 +35,9 @@ public class Robot extends TimedRobot {
   public static final Limelight limelight = new Limelight();
   public static final OI oi = new OI();
 
-  public IntakeAndShootCommand intakeCommand = new IntakeAndShootCommand();
-
-  Command m_autonomousCommand;
-  SendableChooser<Command> auto = new SendableChooser<>();
+  private TeleopGroup teleopCommand = new TeleopGroup();
+  private Command autonomousCommand;
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -47,11 +45,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    auto.addOption("No auto", null);
-    auto.setDefaultOption("Cross Init Line", new CrossInitLine());
-    auto.addOption("Auto score", new AutoScore());
-    auto.addOption("Vision Test", new VisionCommand(driveSystem));
-    SmartDashboard.putData("Auto", auto);
+    autoChooser.addOption("No auto", null);
+    autoChooser.setDefaultOption("Cross Init Line", new CrossInitLine());
+    autoChooser.addOption("Auto score", new AutoScore());
+    autoChooser.addOption("Vision Test", new VisionCommand(driveSystem));
+    SmartDashboard.putData("Auto", autoChooser);
   }
 
   /**
@@ -96,10 +94,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = auto.getSelected();
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    autonomousCommand = autoChooser.getSelected();
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
     }
+    teleopCommand.cancel();
   }
 
   /**
@@ -112,14 +111,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
     ToggleButton.resetAllbuttons();
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
+    teleopCommand.schedule();
   }
 
   /**
@@ -128,7 +124,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    intakeCommand.schedule();
   }
 
   /**
