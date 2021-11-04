@@ -15,13 +15,9 @@ import frc.robot.Robot;
  * An example command. You can replace me with your own command.
  */
 public class Drive extends Command {
-  boolean lastgear = false;
-
-  // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
   public Drive() {
     requires(Robot.driveSystem);
     Robot.driveSystem.shiftGear(false);
-    lastgear = Robot.driveSystem.isHighGear();
   }
 
   // Called just before this Command runs the first time
@@ -35,14 +31,8 @@ public class Drive extends Command {
   protected void execute() {
     if (OI.rightJoy.getRawButton(1)) {
       Robot.driveSystem.shiftGear(true);
-      if (lastgear != true) {
-        lastgear = true;
-      }
     } else {
       Robot.driveSystem.shiftGear(false);
-      if (lastgear != false) {
-        lastgear = false;
-      }
     }
 
     double leftX = OI.leftJoy.getRawAxis(1);
