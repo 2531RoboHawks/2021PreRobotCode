@@ -25,8 +25,8 @@ public class IntakeAndShootCommand extends CommandBase {
   private String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
-    addRequirements(Robot.intakeSystem);
-    addRequirements(Robot.shootSystem);
+    // addRequirements(Robot.intakeSystem);
+    // addRequirements(Robot.shootSystem);
   }
 
   @Override

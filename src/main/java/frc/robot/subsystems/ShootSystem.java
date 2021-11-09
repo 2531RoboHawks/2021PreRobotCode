@@ -13,12 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShootSystem extends SubsystemBase {
-  TalonSRX sweep = new TalonSRX(9);
-  TalonSRX shooter = new TalonSRX(10);
-  TalonSRX bottomIntake = new TalonSRX(12);
-  TalonSRX topIntake = new TalonSRX(13);
+  private TalonSRX sweep = new TalonSRX(9);
+  private TalonSRX shooter = new TalonSRX(10);
+  private TalonSRX bottomIntake = new TalonSRX(12);
+  private TalonSRX topIntake = new TalonSRX(13);
 
   public void shoot(double pow) {
+    System.out.println("Shooter: " + pow);
     shooter.set(ControlMode.PercentOutput, pow);
   }
 
