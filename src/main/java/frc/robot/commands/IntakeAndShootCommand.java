@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
@@ -25,8 +26,8 @@ public class IntakeAndShootCommand extends CommandBase {
   private String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
-    // addRequirements(Robot.intakeSystem);
-    // addRequirements(Robot.shootSystem);
+    addRequirements(Robot.intakeSystem);
+    addRequirements(Robot.shootSystem);
   }
 
   @Override
@@ -55,7 +56,7 @@ public class IntakeAndShootCommand extends CommandBase {
         if (revWillBeReadyAt == -1) {
           revWillBeReadyAt = now + 10000;
         }
-        Robot.shootSystem.shoot(0.2);
+        Robot.shootSystem.shoot(Preferences.getInstance().getDouble("Rev", 0.0));
         Robot.intakeSystem.bottomWheel(-0.5);
         Robot.intakeSystem.intake(0);
       } else {
@@ -72,7 +73,7 @@ public class IntakeAndShootCommand extends CommandBase {
         SmartDashboard.putString(INTAKE_STATUS, "Shooting");
       } else if (OI.leftJoy.getRawButton(2)) {
         // Intake
-        Robot.intakeSystem.bottomWheel(0.3);
+        Robot.intakeSystem.bottomWheel(0.4);
         Robot.intakeSystem.intake(0.2);
         SmartDashboard.putString(INTAKE_STATUS, "Intaking");
       } else if (isManualControl) {
@@ -110,7 +111,9 @@ public class IntakeAndShootCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.shootSystem.stop();
-    Robot.intakeSystem.stopAll();
+    if (!interrupted) {
+      Robot.shootSystem.stop();
+      Robot.intakeSystem.stopAll();
+    }
   }
 }

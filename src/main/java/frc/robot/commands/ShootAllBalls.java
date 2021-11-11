@@ -7,6 +7,7 @@ import frc.robot.Robot;
 
 public class ShootAllBalls extends SequentialCommandGroup {
   public ShootAllBalls() {
+    addRequirements(Robot.intakeSystem);
     for (int i = 0; i < 3; i++) {
       addCommands(new InstantCommand(() -> {
         Robot.intakeSystem.stopAll();

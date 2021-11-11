@@ -7,15 +7,20 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.TeleopGroup;
 import frc.robot.commands.VisionCommand;
 import frc.robot.commands.CrossInitLine;
+import frc.robot.commands.ShootAllBalls;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -40,6 +45,8 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+  private List<Double> lastAreas = new ArrayList<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -51,6 +58,7 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Auto score", new AutoScore());
     autoChooser.addOption("Vision Test", new VisionCommand(driveSystem));
     SmartDashboard.putData("Auto", autoChooser);
+    lastAreas.clear();
   }
 
   /**
@@ -65,7 +73,21 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
+
+    // lastAreas.add(limelight.getArea());
+    // while (lastAreas.size() > 100) {
+    //   lastAreas.remove(0);
+    // }
+
+    // double sum = 0;
+    // for (Double i : lastAreas) {
+    //   sum += i;
+    // }
+    // double average = sum / lastAreas.size();
+    // SmartDashboard.putNumber("area", average);
     CommandScheduler.getInstance().run();
+
+    new JoystickButton(OI.leftJoy, 10).whenPressed(new ShootAllBalls());
   }
 
   /**

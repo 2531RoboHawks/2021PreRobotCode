@@ -28,6 +28,7 @@ public class ToggleButton {
 
   public void reset() {
     toggled = false;
+    System.out.println("reset" + this.button);
   }
 
   public static void resetAllbuttons() {
