@@ -11,6 +11,7 @@ public class ToggleButton {
   Joystick joystick;
   int button;
   boolean toggled = false;
+  boolean oldValue = false;
 
   public ToggleButton(Joystick joystick, int button) {
     this.joystick = joystick;
@@ -19,19 +20,24 @@ public class ToggleButton {
   }
 
   public boolean isToggled() {
-    boolean wasToggled = this.joystick.getRawButtonPressed(this.button);
-    if (wasToggled) {
-      toggled = !toggled;
+    boolean newValue = this.joystick.getRawButton(this.button);
+    if (oldValue != newValue) {
+      System.out.println("Toggled: " + this.button);
+      oldValue = newValue;
+      if (newValue) {
+        toggled = !toggled;
+      }
     }
     return toggled;
   }
 
   public void reset() {
     toggled = false;
-    System.out.println("reset" + this.button);
+    System.out.println("Reset button: " + this.button);
   }
 
   public static void resetAllbuttons() {
+    System.out.println("Reset all buttons: " + allButtons.size());
     for (ToggleButton button : allButtons) {
       button.reset();
     }

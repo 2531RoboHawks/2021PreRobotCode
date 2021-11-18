@@ -16,19 +16,15 @@ import frc.robot.subsystems.DriveSystem;
 public class VisionCommand extends CommandBase {
   private final DriveSystem driveSystem;
   private final PIDController rotatePidController;
-  private final PIDController drivePidController;
 
   public VisionCommand(DriveSystem driveSystem) {
-    this.rotatePidController = new PIDController(0.5, 1, 0.01);
-    this.drivePidController = new PIDController(0.5, 1, 0.01);
+    this.rotatePidController = new PIDController(0.03, 0.04, 0.005);
     this.driveSystem = driveSystem;
   }
 
   @Override
   public void initialize() {
-    drivePidController.reset();
     rotatePidController.reset();
-    drivePidController.setSetpoint(1);
     rotatePidController.setSetpoint(0);
   }
 
@@ -42,21 +38,21 @@ public class VisionCommand extends CommandBase {
     // SmartDashboard.putNumber("Pitch", 0);
     // SmartDashboard.putNumber("Area", 0);
 
-    double areaOutput = drivePidController.calculate(area);
     double xOutput = rotatePidController.calculate(tx);
 
-    SmartDashboard.putNumber("output", areaOutput);
-
     if (Robot.limelight.hasValidTargets()) {
-      driveSystem.arcadeDrive(0, xOutput / 10.0);
-    } else {
-      driveSystem.stop();
+      driveSystem.arcadeDrive(0, xOutput);
     }
   }
 
   @Override
   public boolean isFinished() {
-    return rotatePidController.atSetpoint();
+    rotatePidController.setTolerance(0.2);
+    if (Robot.limelight.hasValidTargets()) {
+      return rotatePidController.atSetpoint();
+    } else {
+      return false;
+    }
   }
 
   @Override

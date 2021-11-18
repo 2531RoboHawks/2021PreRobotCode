@@ -17,7 +17,7 @@ import frc.robot.ToggleButton;
 public class IntakeAndShootCommand extends CommandBase {
   private ToggleButton revButton = new ToggleButton(OI.leftJoy, 3);
   private ToggleButton manualButton = new ToggleButton(OI.leftJoy, 8);
-  private ToggleButton autoButton = new ToggleButton(OI.leftJoy, 9);
+  public static ToggleButton autoButton = new ToggleButton(OI.leftJoy, 9);
   private long revWillBeReadyAt = -1;
 
   private AimAndShootCommand autoCommand = new AimAndShootCommand();
@@ -26,8 +26,8 @@ public class IntakeAndShootCommand extends CommandBase {
   private String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
-    addRequirements(Robot.intakeSystem);
-    addRequirements(Robot.shootSystem);
+    // addRequirements(Robot.intakeSystem);
+    // addRequirements(Robot.shootSystem);
   }
 
   @Override

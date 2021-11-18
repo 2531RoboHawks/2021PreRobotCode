@@ -10,17 +10,16 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.TeleopGroup;
 import frc.robot.commands.VisionCommand;
 import frc.robot.commands.CrossInitLine;
-import frc.robot.commands.ShootAllBalls;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -47,12 +46,12 @@ public class Robot extends TimedRobot {
 
   private List<Double> lastAreas = new ArrayList<>();
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
   @Override
   public void robotInit() {
+    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().getVideo
+    ("USB Camera 0").getSource().setFPS(30);
+
     autoChooser.addOption("No auto", null);
     autoChooser.setDefaultOption("Cross Init Line", new CrossInitLine());
     autoChooser.addOption("Auto score", new AutoScore());
@@ -61,40 +60,24 @@ public class Robot extends TimedRobot {
     lastAreas.clear();
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
-
-    // lastAreas.add(limelight.getArea());
-    // while (lastAreas.size() > 100) {
-    //   lastAreas.remove(0);
-    // }
-
-    // double sum = 0;
-    // for (Double i : lastAreas) {
-    //   sum += i;
-    // }
-    // double average = sum / lastAreas.size();
-    // SmartDashboard.putNumber("area", average);
     CommandScheduler.getInstance().run();
 
-    new JoystickButton(OI.leftJoy, 10).whenPressed(new ShootAllBalls());
+    SmartDashboard.putBoolean("Sees Target", limelight.hasValidTargets());
+
+    lastAreas.add(limelight.getArea());
+    while (lastAreas.size() > 100) {
+      lastAreas.remove(0);
+    }
+    double sum = 0;
+    for (Double i : lastAreas) {
+      sum += i;
+    }
+    double average = sum / lastAreas.size();
+    SmartDashboard.putNumber("area", average);
   }
 
-  /**
-   * This function is called once each time the robot enters Disabled mode. You
-   * can use it to reset any subsystem information you want to clear when the
-   * robot is disabled.
-   */
   @Override
   public void disabledInit() {
   }
@@ -104,18 +87,6 @@ public class Robot extends TimedRobot {
 
   }
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable chooser
-   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-   * remove all of the chooser code and uncomment the getString code to get the
-   * auto name from the text box below the Gyro
-   *
-   * <p>
-   * You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons to
-   * the switch structure below with additional strings & commands.
-   */
   @Override
   public void autonomousInit() {
     autonomousCommand = autoChooser.getSelected();
@@ -125,9 +96,6 @@ public class Robot extends TimedRobot {
     teleopCommand.cancel();
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
   @Override
   public void autonomousPeriodic() {
 
@@ -142,16 +110,10 @@ public class Robot extends TimedRobot {
     teleopCommand.schedule();
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
   @Override
   public void teleopPeriodic() {
   }
 
-  /**
-   * This function is called periodically during test mode.
-   */
   @Override
   public void testPeriodic() {
   }

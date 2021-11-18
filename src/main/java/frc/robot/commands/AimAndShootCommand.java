@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,7 +17,7 @@ public class AimAndShootCommand extends SequentialCommandGroup {
     addCommands(new InstantCommand(() -> {
       // TODO: configure based on distance
       double area = Robot.limelight.getArea();
-      Robot.shootSystem.shoot(0.8);
+      Robot.shootSystem.shoot(Preferences.getInstance().getDouble("Rev", 0.0));
     }));
     addCommands(new WaitCommand(5));
     addCommands(new ShootAllBalls());
@@ -24,6 +25,7 @@ public class AimAndShootCommand extends SequentialCommandGroup {
       Robot.driveSystem.stop();
       Robot.shootSystem.stop();
       Robot.intakeSystem.stopAll();
+      IntakeAndShootCommand.autoButton.reset();
     }));
   }
 }
