@@ -92,11 +92,11 @@ public class Limelight extends SubsystemBase {
 
   public double getDistance() {
     // d = (h2 - h1) / tan(a1+a2)
-    //TODO: get height
+    //TO DO: get height
     double h1 = 3.125;
 
     double h2 = 7.125;
-    //TODO: get cam angle
+    //TO DO: get cam angle
     double a1 = 0.0; //(RobotContainer.servoSubsystem.getTopServoAngle() - 0.74) * 360;
 
     double a2 = getY();

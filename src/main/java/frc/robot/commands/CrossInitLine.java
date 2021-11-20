@@ -8,9 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 
 public class CrossInitLine extends SequentialCommandGroup {
   public CrossInitLine() {
+    addRequirements(Robot.driveSystem);
     addCommands(new TimeDrive(2, -0.5, -0.5));
   }
 }

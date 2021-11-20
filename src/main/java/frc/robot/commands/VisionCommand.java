@@ -47,7 +47,7 @@ public class VisionCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    rotatePidController.setTolerance(0.2);
+    // rotatePidController.setTolerance(0.1);
     if (Robot.limelight.hasValidTargets()) {
       return rotatePidController.atSetpoint();
     } else {

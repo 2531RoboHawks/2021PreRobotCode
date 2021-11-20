@@ -22,8 +22,8 @@ public class IntakeAndShootCommand extends CommandBase {
 
   private AimAndShootCommand autoCommand = new AimAndShootCommand();
 
-  private String SHOOT_STATUS = "Shoot Status ";
-  private String INTAKE_STATUS = "Intake Status ";
+  public static String SHOOT_STATUS = "Shoot Status ";
+  public static String INTAKE_STATUS = "Intake Status ";
 
   public IntakeAndShootCommand() {
     // addRequirements(Robot.intakeSystem);
@@ -45,10 +45,10 @@ public class IntakeAndShootCommand extends CommandBase {
 
     if (isAuto) {
       if (!autoCommand.isScheduled()) {
+        SmartDashboard.putString(INTAKE_STATUS, "AUTO");
+        SmartDashboard.putString(SHOOT_STATUS, "AUTO");
         autoCommand.schedule();
       }
-      SmartDashboard.putString(INTAKE_STATUS, "AUTO");
-      SmartDashboard.putString(SHOOT_STATUS, "AUTO");
     } else {
       autoCommand.cancel();
 

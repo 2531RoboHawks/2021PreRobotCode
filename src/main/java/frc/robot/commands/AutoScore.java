@@ -14,15 +14,18 @@ import frc.robot.Robot;
 
 public class AutoScore extends SequentialCommandGroup {
   public AutoScore() {
+    addRequirements(Robot.driveSystem);
     // addSequential(new TimeDrive(2.8, 0.5, 0.5));
     // addSequential(new InstantCommand(() -> {
     //   Robot.shootSystem.shoot(0.9);
     // }));
-    addCommands(new TimeDrive(2.5, 0.5, 0.5));
+    addCommands(new InstantCommand(() -> {
+      Robot.shootSystem.shoot(0.75);
+    }));
+    addCommands(new TimeDrive(2.2, 0.5, 0.5));
     addCommands(new InstantCommand(() -> {
       Robot.driveSystem.stop();
       Robot.intakeSystem.bottomWheel(0.5);
-      Robot.shootSystem.shoot(0.9);
     }));
     // addParallel(new TimeShoot(0.9));
     addCommands(new WaitCommand(4));

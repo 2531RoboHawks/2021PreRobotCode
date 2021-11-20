@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoScore;
+import frc.robot.commands.AutoVision;
 import frc.robot.commands.TeleopGroup;
 import frc.robot.commands.VisionCommand;
 import frc.robot.commands.CrossInitLine;
@@ -49,14 +50,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
-    CameraServer.getInstance().getVideo
-    ("USB Camera 0").getSource().setFPS(30);
+    CameraServer.getInstance().getVideo("USB Camera 0").getSource().setFPS(30);
 
     autoChooser.addOption("No auto", null);
     autoChooser.setDefaultOption("Cross Init Line", new CrossInitLine());
-    autoChooser.addOption("Auto score", new AutoScore());
-    autoChooser.addOption("Vision Test", new VisionCommand(driveSystem));
+    autoChooser.addOption("Auto score OLD", new AutoScore());
+    autoChooser.addOption("Auto vision NEW", new AutoVision());
     SmartDashboard.putData("Auto", autoChooser);
+
     lastAreas.clear();
   }
 
@@ -89,11 +90,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    System.out.println("Auto init");
     autonomousCommand = autoChooser.getSelected();
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
-    teleopCommand.cancel();
+    // teleopCommand.cancel();
   }
 
   @Override
@@ -104,9 +106,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     ToggleButton.resetAllbuttons();
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.cancel();
+    // }
     teleopCommand.schedule();
   }
 

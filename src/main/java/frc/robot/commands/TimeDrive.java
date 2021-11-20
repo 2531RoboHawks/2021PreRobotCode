@@ -27,6 +27,7 @@ public class TimeDrive extends CommandBase {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
+    end = false;
   }
 
   @Override
