@@ -22,7 +22,7 @@ public class AutoScore extends SequentialCommandGroup {
     addCommands(new InstantCommand(() -> {
       Robot.shootSystem.shoot(0.75);
     }));
-    addCommands(new TimeDrive(2.2, 0.5, 0.5));
+    addCommands(new TimeDrive(2, 0.5, 0.5));
     addCommands(new InstantCommand(() -> {
       Robot.driveSystem.stop();
       Robot.intakeSystem.bottomWheel(0.5);
@@ -31,8 +31,13 @@ public class AutoScore extends SequentialCommandGroup {
     addCommands(new WaitCommand(4));
     addCommands(new ShootAllBalls());
     addCommands(new InstantCommand(() -> {
-      Robot.shootSystem.stop();
-      Robot.intakeSystem.stopAll();
+      end(false);
     }));
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Robot.shootSystem.stop();
+    Robot.intakeSystem.stopAll();
   }
 }

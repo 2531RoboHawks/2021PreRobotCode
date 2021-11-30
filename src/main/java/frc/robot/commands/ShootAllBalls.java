@@ -22,6 +22,6 @@ public class ShootAllBalls extends SequentialCommandGroup {
         Robot.intakeSystem.stopAll();
       }));
     }
-    addCommands(new WaitCommand(1));
+    addCommands(new WaitCommand(2));
   }
 }

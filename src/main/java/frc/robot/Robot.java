@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
-    CameraServer.getInstance().getVideo("USB Camera 0").getSource().setFPS(30);
+    CameraServer.getInstance().getVideo("USB Camera 0").getSource().setFPS(2);
 
     autoChooser.addOption("No auto", null);
     autoChooser.setDefaultOption("Cross Init Line", new CrossInitLine());
@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
     // if (autonomousCommand != null) {
     //   autonomousCommand.cancel();
     // }
-    teleopCommand.schedule();
+    // teleopCommand.schedule();
   }
 
   @Override
