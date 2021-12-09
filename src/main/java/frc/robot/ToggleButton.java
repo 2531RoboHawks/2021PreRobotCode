@@ -22,10 +22,10 @@ public class ToggleButton {
   public boolean isToggled() {
     boolean newValue = this.joystick.getRawButton(this.button);
     if (oldValue != newValue) {
-      System.out.println("Toggled: " + this.button);
       oldValue = newValue;
       if (newValue) {
         toggled = !toggled;
+        System.out.println("Toggled " + this.button + " " + toggled);
       }
     }
     return toggled;

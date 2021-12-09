@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   private TeleopGroup teleopCommand = new TeleopGroup();
   private Command autonomousCommand;
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
+  public static SendableChooser<String> controlChooser = new SendableChooser<>();
 
   private List<Double> lastAreas = new ArrayList<>();
 
@@ -57,6 +58,12 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Auto score OLD", new AutoScore());
     autoChooser.addOption("Auto vision NEW", new AutoVision());
     SmartDashboard.putData("Auto", autoChooser);
+
+    controlChooser.addOption("Airplane tank", "airplane-tank");
+    controlChooser.addOption("Airplane arcade", "airplane-arcade");
+    controlChooser.addOption("Joystick arcade", "joystick-arcade");
+    controlChooser.addOption("Joystick car", "joystick-car");
+    SmartDashboard.putData("Controls", controlChooser);
 
     lastAreas.clear();
   }

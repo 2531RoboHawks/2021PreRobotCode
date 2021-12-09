@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.ToggleButton;
 import frc.robot.subsystems.DriveSystem;
 
@@ -42,8 +43,31 @@ public class Drive extends CommandBase {
     // double leftX = OI.leftJoy.getRawAxis(1);
     // double leftY = OI.rightJoy.getRawAxis(1);
 
-    double mult = fast ? 1.0 : 0.6;
-    driveSystem.arcadeDrive(OI.gamepad.getY() * mult, -OI.gamepad.getX() * mult);
+    String controls = Robot.controlChooser.getSelected();
+    if (controls == null) controls = "airplane-tank";
+    if (controls.equals("airplane-tank")) {
+      driveSystem.tankDrive(
+        OI.leftJoy.getY() * (fast ? 1.0 : 0.6),
+        OI.rightJoy.getY() * (fast ? 1.0 : 0.6)
+      );
+    } else if (controls.equals("airplane-arade")) {
+      driveSystem.arcadeDrive(
+        OI.leftJoy.getY() * (fast ? 1.0 : 0.6),
+        -OI.leftJoy.getX() * (fast ? 1.0 : 0.6)
+      );
+    } else if (controls.equals("joystick-arcade")) {
+      driveSystem.arcadeDrive(
+        OI.gamepad.getY() * (fast ? 1.0 : 0.6),
+        -OI.gamepad.getX() * (fast ? 1.0 : 0.6)
+      );
+    } else if (controls.equals("joystick-car")) {
+      driveSystem.arcadeDrive(
+        (-OI.gamepad.getRawAxis(3) + OI.gamepad.getRawAxis(2)) * (fast ? 1.0 : 0.6),
+        -OI.gamepad.getX() * (fast ? 1.0 : 0.6)
+      );
+    } else {
+      System.out.println("Unknown mode " + controls);
+    }
   }
 
   @Override
