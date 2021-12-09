@@ -41,6 +41,6 @@ public class AimAndShootCommand extends SequentialCommandGroup {
     Robot.driveSystem.stop();
     Robot.shootSystem.stop();
     Robot.intakeSystem.stopAll();
-    IntakeAndShootCommand.autoButton.reset();
+    // IntakeAndShootCommand.autoButton.reset();
   }
 }

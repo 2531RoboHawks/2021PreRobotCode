@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.ToggleButton;
 import frc.robot.subsystems.DriveSystem;
 
 /**
@@ -16,6 +17,7 @@ import frc.robot.subsystems.DriveSystem;
  */
 public class Drive extends CommandBase {
   private DriveSystem driveSystem;
+  private ToggleButton button = new ToggleButton(OI.gamepad, 1);
 
   public Drive(DriveSystem driveSystem) {
     addRequirements(driveSystem);
@@ -30,16 +32,18 @@ public class Drive extends CommandBase {
 
   @Override
   public void execute() {
-    if (OI.rightJoy.getRawButton(1)) {
-      driveSystem.shiftGear(true);
-    } else {
-      driveSystem.shiftGear(false);
-    }
+    // if (OI.rightJoy.getRawButton(1)) {
+    //   driveSystem.shiftGear(true);
+    // } else {
+    // }
+    boolean fast = button.isToggled();
+    // driveSystem.shiftGear(fast);
 
-    double leftX = OI.leftJoy.getRawAxis(1);
-    double leftY = OI.rightJoy.getRawAxis(1);
+    // double leftX = OI.leftJoy.getRawAxis(1);
+    // double leftY = OI.rightJoy.getRawAxis(1);
 
-    driveSystem.tankDrive(leftX, leftY);
+    double mult = fast ? 1.0 : 0.6;
+    driveSystem.arcadeDrive(OI.gamepad.getY() * mult, -OI.gamepad.getX() * mult);
   }
 
   @Override

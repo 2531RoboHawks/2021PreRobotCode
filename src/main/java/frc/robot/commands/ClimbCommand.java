@@ -18,13 +18,13 @@ public class ClimbCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (OI.rightJoy.getRawButton(3)) {
-      climbSystem.moveUp();
-    } else if (OI.rightJoy.getRawButton(2)) {
-      climbSystem.moveDown();
-    } else {
-      climbSystem.stop();
-    }
+    // if (OI.rightJoy.getRawButton(3)) {
+    //   climbSystem.moveUp();
+    // } else if (OI.rightJoy.getRawButton(2)) {
+    //   climbSystem.moveDown();
+    // } else {
+    //   climbSystem.stop();
+    // }
   }
 
   @Override
